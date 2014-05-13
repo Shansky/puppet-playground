@@ -49,6 +49,10 @@ Vagrant.configure("2") do |config|
       :box     => 'OpenSuse12_1x64_July14',
       :box_url => 'https://s3.amazonaws.com/circlejtp/OpenSuseVagrant/OpenSuse12_1x64_July14.box',
     },
+    :oi151a8 => {
+      :box     => 'oi-151a8-vbox',
+      :box_url => 'https://dl.dropboxusercontent.com/u/2154903/oi-dev-151a8_virtualbox.box',
+    },
     :OpenBSD53_64 => {
       :box     => 'OpenBSD53_64',
       :box_url => 'https://dl.dropboxusercontent.com/u/12089300/VirtualBox/openbsd53_amd64_vagrant12.box',
@@ -58,7 +62,9 @@ Vagrant.configure("2") do |config|
       local.vm.box = cfg[:box]
       local.vm.box_url = cfg[:box_url]
 #      local.vm.boot_mode = :gui
-      local.vm.host_name = ENV['VAGRANT_HOSTNAME'] || name.to_s.downcase.gsub(/_/, '-').concat(".example42.com")
+      if not local.vm.box = "oi-box"
+        local.vm.host_name = ENV['VAGRANT_HOSTNAME'] || name.to_s.downcase.gsub(/_/, '-').concat(".example42.com")
+      end
       local.vm.provision :puppet do |puppet|
         puppet.hiera_config_path = 'data/hiera.yaml'
         puppet.working_directory = '/vagrant/data'
